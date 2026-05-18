@@ -138,4 +138,28 @@ public class IntervalTree {
             node.maxCikis = node.right.maxCikis;
         }
     }
+    
+    // 4. KRONOLOJİK LİSTELEME (IN-ORDER TRAVERSAL)
+    public void kronolojikListele() {
+        if (root == null) {
+            System.out.println("Bu odanın takvimi tamamen boş. Hiç rezervasyon yok.");
+            return;
+        }
+        inOrderTraversal(root);
+    }
+
+    private void inOrderTraversal(IntervalTreeNode node) {
+        if (node == null) return;
+        
+        // 1. Önce sol alt ağaç (Daha eski tarihler)
+        inOrderTraversal(node.left);
+        
+        // 2. Düğümün kendisini yazdır
+        Reservation res = node.reservation;
+        System.out.println("-> Giriş: " + res.getBaslangicTarihi() + " | Çıkış: " + res.getBitisTarihi() + 
+                           " | Müşteri: " + res.getCustomer().getTamAd());
+        
+        // 3. Sonra sağ alt ağaç (Daha ileri tarihler)
+        inOrderTraversal(node.right);
+    }
 }

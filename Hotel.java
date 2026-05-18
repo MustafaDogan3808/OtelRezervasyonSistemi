@@ -44,6 +44,7 @@ public class Hotel {
             Reservation yeniRezervasyon = new Reservation(musteri, oda, BaslangicTarihi, BitisTarihi);
             oda.getTakvim().insert(yeniRezervasyon);
             musteri.rezervasyonSayisiniArttir(); // VIP sistemi için sayacı artır
+            this.rezervasyonlar.add(yeniRezervasyon);
             System.out.println("Başarılı: " + musteri.getTamAd() + " için " + oda.getOdaNo() + " numaralı odaya rezervasyon yapıldı!");
         }
     }
@@ -70,6 +71,63 @@ public class Hotel {
 
         System.out.println("Ödenecek Net Tutar: " + toplamTutar + " TL\n");
         return toplamTutar;
+    }
+    // --- ARŞİVCİ GÖREVLERİ ---
+
+    // 1. Doluluk Raporu
+    public void bosOdalariListele(LocalDate baslangic, LocalDate bitis) {
+        System.out.println("\n--- " + baslangic + " ile " + bitis + " Arası BOŞ Odalar ---");
+        boolean bosOdaVar = false;
+        
+        // HashMap içindeki tüm odaları dönüyoruz
+        for (Room oda : Odalar.values()) {
+            // Odanın takviminde bu tarihler arasında çakışma (overlap) YOKSA oda boştur
+            if (!oda.getTakvim().isOverlapping(baslangic, bitis)) {
+                System.out.println("- Oda No: " + oda.getOdaNo() + " (Gecelik Ücret: " + oda.getUcret() + " TL)");
+                bosOdaVar = true;
+            }
+        }
+        
+        if (!bosOdaVar) {
+            System.out.println("Maalesef bu tarihler arasında hiç boş oda bulunmamaktadır.");
+        }
+    }
+
+    // 2. Müşteri Geçmişi
+    public void musteriGecmisiGetir(String tc) {
+        Customer musteri = Musteriler.get(tc);
+        if (musteri == null) {
+            System.out.println("Hata: " + tc + " kimlik numaralı müşteri sistemde kayıtlı değil.");
+            return;
+        }
+
+        System.out.println("\n--- " + musteri.getTamAd() + " (" + tc + ") Rezervasyon Geçmişi ---");
+        boolean rezervasyonVar = false;
+        
+        // Genel rezervasyon listesinde bu TC'ye sahip olanları filtreliyoruz
+        for (Reservation res : rezervasyonlar) {
+            if (res.getCustomer().getMusteriTC().equals(tc)) {
+                System.out.println("-> Oda: " + res.getOda().getOdaNo() + 
+                                   " | Tarih: " + res.getBaslangicTarihi() + " ile " + res.getBitisTarihi());
+                rezervasyonVar = true;
+            }
+        }
+        
+        if (!rezervasyonVar) {
+            System.out.println("Bu müşterinin herhangi bir rezervasyon kaydı bulunmamaktadır.");
+        }
+    }
+
+    // 3. Oda Bazlı Liste
+    public void odaTakvimiListele(String odaNo) {
+        Room oda = Odalar.get(odaNo);
+        if (oda == null) {
+            System.out.println("Hata: " + odaNo + " numaralı oda bulunamadı.");
+            return;
+        }
+
+        System.out.println("\n--- Oda " + odaNo + " Doluluk Takvimi (Kronolojik) ---");
+        oda.getTakvim().kronolojikListele(); // Interval Tree'deki metodu çağırıyoruz
     }
 
     

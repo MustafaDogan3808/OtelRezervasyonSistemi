@@ -82,6 +82,19 @@ public class Main {
         // edilmeli)
         System.out.println("\nTEST 7: Silinen tarihe Mehmet (22-25 Mayıs) yeni rezervasyon denemesi...");
         otel.RezervasyonYap("22222222222", "101", LocalDate.of(2026, 5, 22), LocalDate.of(2026, 5, 25));
+        
+        // TEST 8: Doluluk Raporu Testi (13 Mayıs - 18 Mayıs)
+        // 101 dolu olabilir ama otelde başta eklenen Oda 102 ve Oda 103 de var (Resepsiyonist sınıfında eklenmişti)
+        System.out.println("TEST 8: 13-18 Mayıs tarihleri arası boş odalar listesi:");
+        otel.bosOdalariListele(LocalDate.of(2026, 5, 13), LocalDate.of(2026, 5, 18));
+
+        // TEST 9: Müşteri Geçmişi Testi (Ahmet'in 4 rezervasyonu vardı)
+        System.out.println("\nTEST 9: Ahmet Yılmaz'ın tüm rezervasyonları listeleniyor:");
+        otel.musteriGecmisiGetir("11111111111");
+
+        // TEST 10: Oda Bazlı Kronolojik Takvim Testi (Ağaç İçi Sıralı Dolaşım)
+        System.out.println("\nTEST 10: 101 numaralı odanın güncel takvimi (Tarih sırasına göre çıkmalı):");
+        otel.odaTakvimiListele("101");
     }
 
 }
