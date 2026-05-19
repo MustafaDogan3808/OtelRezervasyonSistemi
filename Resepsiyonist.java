@@ -24,7 +24,8 @@ public class Resepsiyonist {
             System.out.println("1- Müşteri Kaydı");
             System.out.println("2- Rezervasyon Yap");
             System.out.println("3- Odaları Listele");
-            System.out.println("4- Çıkış");
+            System.out.println("4- Testleri Çalıştır"); // YENİ EKLENEN SEÇENEK
+            System.out.println("5- Çıkış");           // 5'E KAYDIRILDI
             System.out.print("Seçiminiz: ");
 
             try {
@@ -47,6 +48,12 @@ public class Resepsiyonist {
                         break;
 
                     case 4:
+                        System.out.println("\n>>> TESTLER BAŞLATILIYOR <<<");
+                        Main.testleriCalistir(); // Main.java'daki test metodunu çağırıyoruz
+                        System.out.println("\n>>> TESTLER TAMAMLANDI <<<");
+                        break;
+
+                    case 5:
                         System.out.println("Program kapatılıyor...");
                         return;
 
