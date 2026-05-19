@@ -1,13 +1,18 @@
 import java.time.LocalDate;
 
+import java.time.LocalDate;
+
 public class Main {
+    
+    // 1. Sadece menüyü başlatan ana metodumuz
     public static void main(String[] args) {
         Resepsiyonist resepsiyon = new Resepsiyonist();
         resepsiyon.menuyuBaslat();
+    }
 
-        if (true) {
-            return;
-        }
+    // 2. Menüden 4'e basıldığında çalışacak olan test metodumuz
+    public static void testleriCalistir() {
+        
         System.out.println("Otel Rezervasyon Sistemi Çalışıyor!");
         Customer musteri1 = new Customer("11111", "Mustafa Doğan Özdin", "123123123");
         System.out.println("Yeni Müşteri Eklendi:" + musteri1.getTamAd());
